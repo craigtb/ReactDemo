@@ -45,11 +45,22 @@ task gulpWebpack(type: Exec) {
 	}
 }
 
+task npmInstall(type: Exec) {
+	if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+		commandLine 'cmd', '/c', 'npm', 'install', 'gulp'
+	} else {
+		commandLine 'npm', 'install', 'gulp'
+	}
+}
+
+gulpCopy.dependsOn('npmInstall')
 gulpBabel.dependsOn('gulpCopy')
 gulpWebpack.dependsOn('gulpBabel')
 bootRun.dependsOn('gulpWebpack')
 
-
+bootRun {
+	addResources = true
+}
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
