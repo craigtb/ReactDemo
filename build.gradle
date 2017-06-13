@@ -1,0 +1,56 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+task gulpBabel(type: Exec) {
+	if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+		commandLine 'cmd', '/c', 'gulp'
+	} else {
+		commandLine 'gulp', 'babel'
+	}
+}
+
+task gulpCopy(type: Exec) {
+	if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+		commandLine 'cmd', '/c', 'gulp'
+	} else {
+		commandLine 'gulp', 'copy'
+	}
+}
+
+task gulpWebpack(type: Exec) {
+	if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+		commandLine 'cmd', '/c', 'gulp'
+	} else {
+		commandLine 'gulp', 'webpack'
+	}
+}
+
+gulpBabel.dependsOn('gulpCopy')
+gulpWebpack.dependsOn('gulpBabel')
+bootRun.dependsOn('gulpWebpack')
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
