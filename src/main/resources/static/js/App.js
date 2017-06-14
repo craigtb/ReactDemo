@@ -1,11 +1,16 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Header = require('./Header.js');
+var CraigsApp = require('./CraigsApp.js');
+var Content = require('./Content.js');
 
 var App = React.createClass({
 
     render: function () {
-        return React.createElement(Header, { name: 'Neely' });
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(CraigsApp, null)
+        );
     }
 });
 

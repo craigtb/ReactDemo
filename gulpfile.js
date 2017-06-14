@@ -3,6 +3,13 @@ var gulp = require('gulp');
 var gulp = require('gulp');
 var babel = require('gulp-babel');
 
+gulp.task('copy', function () {
+    gulp.src(['./node_modules/react/dist/react.min.js',
+        './node_modules/react-dom/dist/react-dom.min.js'])
+        .pipe(gulp.dest('./src/main/resources/static/vendor/js'));
+
+});
+
 gulp.task("babel", function(){
     return gulp.src("app/*.jsx").
     pipe(babel({
@@ -10,9 +17,10 @@ gulp.task("babel", function(){
     })).
     pipe(gulp.dest("src/main/resources/static/js/"));
 });
-
 var webpack = require('webpack-stream');
-gulp.task("webpack", function() {
+
+
+gulp.task("webpack",['copy', 'babel'], function() {
     return gulp.src(['src/main/resources/static/js/App.js',
                      'src/main/resources/static/js/Header.js'])
         .pipe(webpack({output: {
@@ -22,12 +30,4 @@ gulp.task("webpack", function() {
         .pipe(gulp.dest('src/main/resources/static/js/'));
 });
 
-
-gulp.task('copy', function () {
-    gulp.src(['./node_modules/react/dist/react.min.js',
-        './node_modules/react-dom/dist/react-dom.min.js'])
-        .pipe(gulp.dest('./src/main/resources/static/vendor/js'));
-
-});
-
-gulp.task('default', ['copy','babel', 'webpack']);
+gulp.task('default', ['webpack']);

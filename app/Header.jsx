@@ -7,7 +7,7 @@ var Header = React.createClass({
     },
 
     render: function () {
-        return <div style={{border: 'solid'}}>{this.props.name} {this.state.lastName}</div>;
+        return <div style={{border: 'solid', height: '3em', margin: '0 0 1em 0'}}>{this.props.name}</div>;
     }
 });
 
